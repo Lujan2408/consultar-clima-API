@@ -1,0 +1,18 @@
+:root {
+  --black : #000;
+  --primary : #1f4529;
+  --second : #fff
+}
+
+html { 
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-image: url("../public/pexels-eberhardgross-1292115.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--black);
+  font-size: 2rem;
+}
