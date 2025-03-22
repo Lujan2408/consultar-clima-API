@@ -10,7 +10,9 @@ function App() {
       <h1 className={styles.tittle}>Buscador de Clima</h1>
 
       <div className={styles.container}>
-        <Form fetchWeather={fetchWeather} />
+        <Form 
+          fetchWeather={fetchWeather} 
+        />
         <p>2</p>
       </div>
     </>
