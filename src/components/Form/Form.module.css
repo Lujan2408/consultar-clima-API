@@ -5,6 +5,7 @@
 }
 
 .form input[type="text"], .form select {
+  font-family: 'Outfit', sans-serif;
   padding: 1rem;
   background-color: transparent;
   border: .2rem solid var(--black);
@@ -15,10 +16,11 @@
 }
 
 .submit {
+  font-family: 'Outfit', sans-serif;
   background-color: var(--primary);
   border: none;
   color: var(--second);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.4rem;
   text-transform: uppercase;
   cursor: pointer;
