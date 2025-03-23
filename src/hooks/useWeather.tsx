@@ -1,6 +1,7 @@
 import { z } from "zod"; 
 import axios from "axios";
 import { SearchType } from "../types";
+import { useState } from "react";
 
 //Validación y tipado de la API con zod 
 //Schema 
@@ -14,9 +15,19 @@ const Weather = z.object({
 })
 
 // Extraer el type inferido  
-type Weather = z.infer<typeof Weather>
+export type Weather = z.infer<typeof Weather>
 
 export default function useWeather() {
+
+  const [weather, setWeather] = useState<Weather>({
+    name: "",   
+    main: {
+      temp: 0,
+      temp_max: 0,
+      temp_min: 0
+    }
+  })
+
   const fetchWeather = async (search : SearchType) => {
 
     const appId = import.meta.env.VITE_API_KEY
@@ -36,12 +47,9 @@ export default function useWeather() {
       const {data: weatherResult} = await axios.get(weatherUrl)
       const result = Weather.safeParse(weatherResult) // safeParse compara las propiedades del JSON con las del schema - retorna true/false
 
-      if(!result.success) {
-        result.error
-      } else {
-        console.log(result.data.name)
-        console.log(result.data.main.temp)
-      }
+      if(result.success) {
+        setWeather(result.data)
+      } 
       
     } catch (error) {
       console.log(error)
@@ -49,6 +57,7 @@ export default function useWeather() {
   };
 
   return {
+    weather, // State 
     fetchWeather,
   };
 }
