@@ -1,5 +1,20 @@
+import { z } from "zod"; 
 import axios from "axios";
 import { SearchType } from "../types";
+
+//Validación y tipado de la API con zod 
+//Schema 
+const Weather = z.object({
+  name: z.string(),
+  main: z.object({
+    temp: z.number(),
+    temp_max: z.number(),
+    temp_min: z.number(),
+  })
+})
+
+// Extraer el type inferido  
+type Weather = z.infer<typeof Weather>
 
 export default function useWeather() {
   const fetchWeather = async (search : SearchType) => {
@@ -9,16 +24,25 @@ export default function useWeather() {
     try {
       
       const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${appId}`
+      
       // Destructuring para acceder directamente a data
       const {data} = await axios.get(geoUrl)
-
+      
       // Acceder a la longitud y latitud
       const lat = data[0].lat
       const lon = data[0].lon
       
       const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${appId}`
-      const {data: weatherResult} = await axios(weatherUrl)
+      const {data: weatherResult} = await axios.get(weatherUrl)
+      const result = Weather.safeParse(weatherResult) // safeParse compara las propiedades del JSON con las del schema - retorna true/false
 
+      if(!result.success) {
+        result.error
+      } else {
+        console.log(result.data.name)
+        console.log(result.data.main.temp)
+      }
+      
     } catch (error) {
       console.log(error)
     }
