@@ -1,7 +1,7 @@
 import { z } from "zod"; 
 import axios from "axios";
 import { SearchType } from "../types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 //Validación y tipado de la API con zod 
 //Schema 
@@ -46,7 +46,7 @@ export default function useWeather() {
       const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${appId}`
       const {data: weatherResult} = await axios.get(weatherUrl)
       const result = Weather.safeParse(weatherResult) // safeParse compara las propiedades del JSON con las del schema - retorna true/false
-
+      
       if(result.success) {
         setWeather(result.data)
       } 
@@ -56,8 +56,12 @@ export default function useWeather() {
     }
   };
 
+  // Validar si en weather.name hay algo
+  const hasWeatherData = useMemo(() => weather.name ,[weather])
+
   return {
     weather, // State 
     fetchWeather,
+    hasWeatherData
   };
 }
