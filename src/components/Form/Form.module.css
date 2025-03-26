@@ -17,7 +17,7 @@
 
 .submit {
   font-family: 'Outfit', sans-serif;
-  background-color: var(--primary);
+  background-color: var(--black);
   border: none;
   color: var(--second);
   font-weight: 600;
@@ -28,5 +28,5 @@
 }
 
 .submit:hover {
-  background-color: var(--hover);
+  background-color: rgb(25, 25, 25);
 }
