@@ -1,4 +1,4 @@
-import { set, z } from "zod"; 
+import { z } from "zod"; 
 import axios from "axios";
 import { SearchType } from "../types";
 import { useMemo, useState } from "react";
