@@ -28,9 +28,14 @@ export default function useWeather() {
     }
   })
 
+  // Spinner de carga 
+  const [loading, setLoading] = useState(false)
+
   const fetchWeather = async (search : SearchType) => {
 
     const appId = import.meta.env.VITE_API_KEY
+
+    setLoading(true)
     
     try {
       
@@ -53,6 +58,8 @@ export default function useWeather() {
       
     } catch (error) {
       console.log(error)
+    } finally { // El codigo que haya dentro de finally siempre se ejecutará incluso si el try/catch falla
+      setLoading(false)
     }
   };
 
@@ -62,6 +69,7 @@ export default function useWeather() {
   return {
     weather, // State 
     fetchWeather,
-    hasWeatherData
+    hasWeatherData,
+    loading
   };
 }

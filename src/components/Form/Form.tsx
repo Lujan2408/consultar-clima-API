@@ -5,7 +5,7 @@ import { SearchType } from "../../types"
 import Alert from "../Alert/Alert"
 
 type FormProps = {
-  fetchWeather: (search: SearchType) => Promise<void>
+  fetchWeather: (search: SearchType) => Promise<void>,
 }
 
 export default function Form({ fetchWeather } : FormProps) {
