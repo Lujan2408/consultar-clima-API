@@ -17,16 +17,18 @@ const Weather = z.object({
 // Extraer el type inferido  
 export type Weather = z.infer<typeof Weather>
 
+const INITIAL_STATE = {
+  name: "",   
+  main: {
+    temp: 0,
+    temp_max: 0,
+    temp_min: 0
+  }
+}
+
 export default function useWeather() {
 
-  const [weather, setWeather] = useState<Weather>({
-    name: "",   
-    main: {
-      temp: 0,
-      temp_max: 0,
-      temp_min: 0
-    }
-  })
+  const [weather, setWeather] = useState<Weather>(INITIAL_STATE)
 
   // Spinner de carga 
   const [loading, setLoading] = useState(false)
@@ -36,6 +38,7 @@ export default function useWeather() {
     const appId = import.meta.env.VITE_API_KEY
 
     setLoading(true)
+    setWeather(INITIAL_STATE)
     
     try {
       
