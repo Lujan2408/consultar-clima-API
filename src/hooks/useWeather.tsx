@@ -1,4 +1,4 @@
-import { z } from "zod"; 
+import { set, z } from "zod"; 
 import axios from "axios";
 import { SearchType } from "../types";
 import { useMemo, useState } from "react";
@@ -29,9 +29,8 @@ const INITIAL_STATE = {
 export default function useWeather() {
 
   const [weather, setWeather] = useState<Weather>(INITIAL_STATE)
-
-  // Spinner de carga 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) // Spinner de carga
+  const [found, setFound] = useState(false) // State para la ciudad encontrada 
 
   const fetchWeather = async (search : SearchType) => {
 
@@ -47,6 +46,12 @@ export default function useWeather() {
       // Destructuring para acceder directamente a data
       const {data} = await axios.get(geoUrl)
       
+      // Validar si la ciudad no fue encontrada 
+      if (!data[0]) {
+        setFound(true)
+        return
+      }
+
       // Acceder a la longitud y latitud
       const lat = data[0].lat
       const lon = data[0].lon
@@ -71,8 +76,9 @@ export default function useWeather() {
 
   return {
     weather, // State 
+    loading,
+    found,
     fetchWeather,
     hasWeatherData,
-    loading
   };
 }
